@@ -108,7 +108,7 @@ jobs:
 
   unitests:
     runs-on: ubuntu-latest
-    needs: build
+    needs: security
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
