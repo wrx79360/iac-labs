@@ -43,8 +43,11 @@ jobs:
         key: ${{ matrix.os }}-venv
         
   lint: 
-    runs-on: ubuntu-latest
     needs: build
+    strategy:
+      matrix:
+        os: ["ubuntu-latest", "windows-latest"]
+    runs-on: ${{ matrix.os }}
     defaults:
       run:
         working-directory: ./example-app
@@ -67,8 +70,11 @@ jobs:
         poetry run task lint
 
   formatter:
-    runs-on: ubuntu-latest
     needs: build
+    strategy:
+      matrix:
+        os: ["ubuntu-latest", "windows-latest"]
+    runs-on: ${{ matrix.os }}
     defaults:
       run:
         working-directory: ./example-app
@@ -93,8 +99,11 @@ jobs:
 
 
   security:
-    runs-on: ubuntu-latest
     needs: build
+    strategy:
+      matrix:
+        os: ["ubuntu-latest", "windows-latest"]
+    runs-on: ${{ matrix.os }}
     defaults:
       run:
         working-directory: ./example-app
@@ -119,7 +128,10 @@ jobs:
 
   unittests:
     needs: [lint, formatter, security]
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: ["ubuntu-latest", "windows-latest"]
+    runs-on: ${{ matrix.os }}
     defaults:
       run:
         working-directory: ./example-app
