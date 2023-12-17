@@ -17,13 +17,13 @@ concurrency:
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        os: ["ubuntu-latest", "windows-latest"]
+      runs-on: ${{ matrix.os }}
     defaults:
       run:
         working-directory: ./example-app
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -40,7 +40,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: /home/runner/.cache/pypoetry/virtualenvs
-        key: ${{ runner.os }}-venv
+        key: ${{ matrix.os }}-venv
         
   lint: 
     runs-on: ubuntu-latest
@@ -61,7 +61,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: /home/runner/.cache/pypoetry/virtualenvs
-        key: ${{ runner.os }}-venv
+        key: ${{ matrix.os }}-venv
     - name: Lint
       run: | 
         poetry run task lint
@@ -86,7 +86,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: /home/runner/.cache/pypoetry/virtualenvs
-        key: ${{ runner.os }}-venv
+        key: ${{ matrix.os }}-venv
     - name: Format
       run: |
         poetry run task formatter
@@ -112,7 +112,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: /home/runner/.cache/pypoetry/virtualenvs
-        key: ${{ runner.os }}-venv
+        key: ${{ matrix.os }}-venv
     - name: Security
       run: |
         poetry run task security
@@ -136,7 +136,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: /home/runner/.cache/pypoetry/virtualenvs
-          key: ${{ runner.os }}-venv
+          key: ${{ matrix.os }}-venv
       - name: Test
         run: |
           poetry run task test
