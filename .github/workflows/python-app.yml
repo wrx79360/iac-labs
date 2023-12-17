@@ -66,6 +66,9 @@ jobs:
   formatter:
     runs-on: ubuntu-latest
     needs: build
+    defaults:
+      run:
+        working-directory: ./example-app
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -89,6 +92,9 @@ jobs:
   security:
     runs-on: ubuntu-latest
     needs: build
+    defaults:
+      run:
+        working-directory: ./example-app
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
